@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lobster&display=swap");
+
+:root {
+    --primary-color: #010101;
+    --secondary-color: #fdcd62;
+    --accent-color: #fce88e;
+    --bg-color: #fff7e9;
+    --text-color: #010101;
+    --text-light: #4a4a4a;
+    --white: #fefefe;
+    --border-color: #1a1a1a;
+    --danger: #dc3545;
+    --success: #28a745;
+    --water: #60aefd;
+
+    --font-heading: "Lobster", sans-serif;
+    --font-body: "Inter", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-family: var(--font-body);
+}
+
+.btn:hover {
+    background-color: #ffbb33;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+}
+.btn-outline:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-danger {
+    background-color: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+.btn-danger:hover {
+    background-color: var(--danger);
+    color: var(--white);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
