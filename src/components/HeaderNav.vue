@@ -224,7 +224,7 @@ onMounted(() => {
     }
 
     .nav.nav-open {
-        max-height: 300px;
+        max-height: 400px;
         padding: 20px 0;
         border-bottom: 1px solid var(--border-color);
     }
@@ -262,5 +262,21 @@ onMounted(() => {
 
 .header.dark-theme .burger-btn {
     color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .header.dark-theme .nav {
+        background-color: #08080a;
+        border-bottom-color: #1a1a1d;
+    }
+
+    .header.dark-theme .nav-link {
+        color: #ffffff;
+    }
+
+    .header.dark-theme .nav-link:hover,
+    .header.dark-theme .nav-link.active {
+        color: var(--secondary-color);
+    }
 }
 </style>
