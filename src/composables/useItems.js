@@ -65,7 +65,6 @@ export function useItems() {
             await axios.delete(`${API_URL}/${id}`);
             items.value = items.value.filter((i) => i.id !== id);
             
-            // Remove from cart if it exists
             const { cartItems, removeFromCart } = useCart();
             const cartItem = cartItems.value.find(c => c.productId === id);
             if (cartItem) {

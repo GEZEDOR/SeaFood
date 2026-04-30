@@ -25,7 +25,7 @@ export function useCart() {
             existingItem.quantity += quantity;
         } else {
             const newItem = {
-                id: Date.now().toString(), // simulate MockAPI ID
+                id: Date.now().toString(), 
                 productId: product.id,
                 title: product.title,
                 price: product.price,

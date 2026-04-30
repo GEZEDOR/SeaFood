@@ -10,7 +10,6 @@
 
             <div class="video-wrapper">
                 <div class="video-container">
-                    <!-- Added vq=hd1080 for high resolution and enablejsapi for volume control -->
                     <iframe
                         ref="ytIframe"
                         width="100%"
@@ -18,13 +17,24 @@
                         src="https://www.youtube.com/embed/xCLTpcx9aO8?autoplay=1&mute=1&loop=1&playlist=xCLTpcx9aO8&vq=hd1080&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&enablejsapi=1"
                         title="The Best 4K Aquarium - Dive Into The Mesmerizing Underwater Realm"
                         frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allow="
+                            accelerometer;
+                            autoplay;
+                            clipboard-write;
+                            encrypted-media;
+                            gyroscope;
+                            picture-in-picture;
+                        "
                         allowfullscreen
                     >
                     </iframe>
                 </div>
-                <button class="sound-toggle-btn" @click="toggleSound" :title="isMuted ? 'Включить звук' : 'Выключить звук'">
-                    {{ isMuted ? '🔇' : '🔊' }}
+                <button
+                    class="sound-toggle-btn"
+                    @click="toggleSound"
+                    :title="isMuted ? 'Включить звук' : 'Выключить звук'"
+                >
+                    {{ isMuted ? "🔇" : "🔊" }}
                 </button>
             </div>
 
@@ -32,9 +42,10 @@
                 <h2>Why a virtual aquarium?</h2>
                 <p>
                     At SeaFood, we believe in the beauty of the ocean. While we
-                    provide the highest quality seafood to your table, we also want
-                    to remind our visitors of the serene and stunning underwater
-                    world. Enjoy this live feed from a beautiful coral reef.
+                    provide the highest quality seafood to your table, we also
+                    want to remind our visitors of the serene and stunning
+                    underwater world. Enjoy this live feed from a beautiful
+                    coral reef.
                 </p>
             </div>
         </main>
@@ -42,21 +53,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const ytIframe = ref(null);
 const isMuted = ref(true);
 
 const toggleSound = () => {
     if (!ytIframe.value) return;
-    
+
     if (isMuted.value) {
-        // Send postMessage to YouTube Iframe API to unmute and set volume
-        ytIframe.value.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-        ytIframe.value.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[50]}', '*');
+        ytIframe.value.contentWindow.postMessage(
+            '{"event":"command","func":"unMute","args":""}',
+            "*",
+        );
+        ytIframe.value.contentWindow.postMessage(
+            '{"event":"command","func":"setVolume","args":[50]}',
+            "*",
+        );
         isMuted.value = false;
     } else {
-        ytIframe.value.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+        ytIframe.value.contentWindow.postMessage(
+            '{"event":"command","func":"mute","args":""}',
+            "*",
+        );
         isMuted.value = true;
     }
 };

@@ -43,7 +43,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-const isAquariumRoute = computed(() => route.name === 'aquarium');
+const isAquariumRoute = computed(() => route.name === "aquarium");
 </script>
 
 <style scoped>
@@ -141,7 +141,6 @@ const isAquariumRoute = computed(() => route.name === 'aquarium');
     }
 }
 
-/* Dark Theme for Aquarium Page */
 .footer.dark-theme {
     background-color: #08080a;
     margin-top: 0;

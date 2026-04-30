@@ -14,10 +14,9 @@ export function useAuth() {
     const register = async (name, email, password) => {
         showLoader();
         try {
-            // Check if email exists
             const res = await axios.get(API_URL);
             const users = res.data;
-            if (users.find(u => u.email === email)) {
+            if (users.find((u) => u.email === email)) {
                 addNotification("Email already registered", "error");
                 return false;
             }
@@ -25,8 +24,8 @@ export function useAuth() {
             const newUser = {
                 name,
                 email,
-                password, // In real app, hash this!
-                admin: false // Default to false
+                password,
+                admin: false,
             };
 
             const createRes = await axios.post(API_URL, newUser);
@@ -48,8 +47,10 @@ export function useAuth() {
         try {
             const res = await axios.get(API_URL);
             const users = res.data;
-            const user = users.find(u => u.email === email && u.password === password);
-            
+            const user = users.find(
+                (u) => u.email === email && u.password === password,
+            );
+
             if (user) {
                 currentUser.value = user;
                 storage.save(STORAGE_KEYS.USER_SESSION, currentUser.value);
@@ -75,7 +76,9 @@ export function useAuth() {
     };
 
     const isAuthenticated = computed(() => !!currentUser.value);
-    const isAdmin = computed(() => !!currentUser.value && currentUser.value.admin === true);
+    const isAdmin = computed(
+        () => !!currentUser.value && currentUser.value.admin === true,
+    );
 
     return {
         currentUser,
@@ -83,6 +86,6 @@ export function useAuth() {
         isAdmin,
         register,
         login,
-        logout
+        logout,
     };
 }
