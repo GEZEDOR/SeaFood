@@ -43,6 +43,21 @@ const router = createRouter({
             component: () => import("@/views/ContactsView.vue"),
         },
         {
+            path: "/auth",
+            name: "auth",
+            component: () => import("@/views/AuthView.vue"),
+        },
+        {
+            path: "/checkout",
+            name: "checkout",
+            component: () => import("@/views/CheckoutView.vue"),
+        },
+        {
+            path: "/aquarium",
+            name: "aquarium",
+            component: () => import("@/views/AquariumView.vue"),
+        },
+        {
             path: "/:pathMatch(.*)*",
             name: "not-found",
             component: () => import("@/views/NotFoundView.vue"),

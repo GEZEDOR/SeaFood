@@ -2,7 +2,7 @@
     <main class="catalog-page container">
         <div class="catalog-header">
             <h2>Featured Products</h2>
-            <button class="btn btn-secondary" @click="openCreateModal">
+            <button v-if="isAdmin" class="btn btn-secondary" @click="openCreateModal">
                 + Add Product
             </button>
         </div>
@@ -42,10 +42,12 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useItems } from "@/composables/useItems";
+import { useAuth } from "@/composables/useAuth";
 import ItemCard from "@/components/ItemCard.vue";
 import ItemModal from "@/components/ItemModal.vue";
 
 const { items, loadItems, addItem } = useItems();
+const { isAdmin } = useAuth();
 const isModalOpen = ref(false);
 
 const categories = [

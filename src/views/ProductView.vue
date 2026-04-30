@@ -4,12 +4,20 @@
             <div class="product-image-col">
                 <div class="image-box">
                     <img
-                        :src="
-                            product.image ||
-                            'https://via.placeholder.com/600x600?text=No+Image'
-                        "
+                        :src="displayImage"
                         :alt="product.title"
                         class="product-img"
+                    />
+                </div>
+                <div v-if="hasMultipleImages" class="thumbnail-list">
+                    <img
+                        v-for="(img, index) in product.image"
+                        :key="index"
+                        :src="img"
+                        :alt="`Thumbnail ${index + 1}`"
+                        class="thumbnail"
+                        :class="{ active: index === activeImageIndex }"
+                        @click="activeImageIndex = index"
                     />
                 </div>
             </div>
@@ -45,7 +53,7 @@
                     </button>
                 </div>
 
-                <div class="admin-actions">
+                <div class="admin-actions" v-if="isAdmin">
                     <p class="admin-title">Admin Management</p>
                     <div class="admin-btns">
                         <button class="btn btn-outline" @click="openEditModal">
@@ -77,6 +85,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useItems } from "@/composables/useItems";
 import { useNotifications } from "@/composables/useNotifications";
 import { useCart } from "@/composables/useCart";
+import { useAuth } from "@/composables/useAuth";
 import ItemModal from "@/components/ItemModal.vue";
 
 const route = useRoute();
@@ -84,12 +93,26 @@ const router = useRouter();
 const { items, loadItems, updateItem, deleteItem } = useItems();
 const { addNotification } = useNotifications();
 const { addToCart: addItemToCart } = useCart();
+const { isAdmin } = useAuth();
 
 const isModalOpen = ref(false);
 const quantity = ref(1);
+const activeImageIndex = ref(0);
 
 const product = computed(() => {
     return items.value.find((i) => String(i.id) === String(route.params.id));
+});
+
+const hasMultipleImages = computed(() => {
+    return product.value && Array.isArray(product.value.image) && product.value.image.length > 1;
+});
+
+const displayImage = computed(() => {
+    if (!product.value) return '';
+    if (Array.isArray(product.value.image) && product.value.image.length > 0) {
+        return product.value.image[activeImageIndex.value] || product.value.image[0];
+    }
+    return product.value.image || 'https://via.placeholder.com/600x600?text=No+Image';
 });
 
 onMounted(async () => {
@@ -162,12 +185,43 @@ const handleDelete = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
 }
 
 .product-img {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background-color: var(--white);
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #eaeaea;
+    padding: 5px;
+    transition: all 0.2s;
+}
+
+.thumbnail:hover {
+    transform: translateY(-2px);
+}
+
+.thumbnail.active {
+    border: 2px solid var(--primary-color);
+    padding: 4px;
 }
 
 .category {

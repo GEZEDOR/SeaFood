@@ -18,6 +18,7 @@
                         </div>
                     </div>
                 </div>
+                <img class="hero-mobile-img" src="https://eatfishwife.com/cdn/shop/files/DESKTOP_BANNER_7.png?v=1775569153&width=2000" alt="Fishwife Bandana" />
             </section>
         </Teleport>
 
@@ -207,7 +208,7 @@ onMounted(() => {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 3rem 2.5rem;
-    background-color: #fdf5e6;
+    background-color: #faefdb;
     max-width: 440px;
 }
 
@@ -218,6 +219,10 @@ onMounted(() => {
     line-height: 1.1;
     margin-bottom: 2.5rem;
     font-weight: 500;
+}
+
+.hero-mobile-img {
+    display: none;
 }
 
 .hero-btn {
@@ -340,54 +345,67 @@ onMounted(() => {
         grid-template-columns: repeat(2, 1fr);
         gap: 3rem 2rem;
     }
+    .hero {
+        background-position: 80% center;
+    }
+    .hero-card {
+        padding: 2.5rem 1.5rem;
+        background-color: #faefdb;
+        text-align: center;
+    }
+    .hero-card h1 {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background-image: none;
+        flex-direction: column;
+        padding-top: 3rem;
+        min-height: auto;
+    }
+    .hero-container {
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    .hero-left {
+        flex: 1 1 100%;
+        justify-content: center;
+        width: 100%;
+        margin-top: 0;
+    }
+    .hero-card {
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto;
+        box-shadow: none;
+    }
+    .hero-mobile-img {
+        display: block;
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        object-position: 85% center;
+    }
 }
 
 @media (max-width: 576px) {
     .features-grid {
         grid-template-columns: 1fr;
     }
-}
-
-@media (max-width: 992px) {
-    .hero {
-        min-height: auto;
-        padding: 4rem 0;
-        background-position: 80% center;
-    }
-    .hero-container {
-        justify-content: center;
-    }
-    .hero-left {
-        flex: 1 1 100%;
-        justify-content: center;
-    }
-    .hero-card {
-        padding: 2.5rem 1.5rem;
-        margin: 0 auto;
-        background-color: rgba(253, 245, 230, 0.95);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
     .hero-card h1 {
-        font-size: 2.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .hero {
-        padding: 2rem 0 3rem 0;
-        background-position: 85% center;
-    }
-    .hero-left {
-        margin-top: 12rem;
-    }
-    .hero-card h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
         margin-bottom: 1.5rem;
+    }
+    .hero-mobile-img {
+        height: 400px;
+        object-position: 85% center;
     }
 }
 
 .sign-up {
-    background-color: #fffcf3;
+    background-color: var(--bg-color);
     padding-bottom: 5rem;
 }
 
@@ -414,7 +432,7 @@ onMounted(() => {
 .sign-up-circle-wrapper {
     position: relative;
     z-index: 2;
-    background-color: #fffcf3;
+    background-color: var(--bg-color);
     padding: 0 10px;
     display: flex;
     align-items: center;
@@ -467,7 +485,7 @@ onMounted(() => {
     border-radius: 50px;
     font-family: var(--font-body);
     font-size: 0.9rem;
-    background-color: #fffcf3;
+    background-color: var(--bg-color);
     outline: none;
     color: #000;
 }

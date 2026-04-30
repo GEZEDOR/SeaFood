@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header" :class="{ 'dark-theme': isAquariumRoute }">
         <div class="container header-content">
             <router-link to="/" class="logo">
                 <span class="logo-icon">🐟</span>
@@ -34,9 +34,22 @@
                     @click="isMenuOpen = false"
                     >Contacts</router-link
                 >
+                <router-link
+                    to="/aquarium"
+                    class="nav-link"
+                    active-class="active"
+                    @click="isMenuOpen = false"
+                    >Aquarium</router-link
+                >
             </nav>
 
             <div class="header-actions">
+                <router-link v-if="!isAuthenticated" to="/auth" class="auth-link">Login</router-link>
+                <div v-else class="user-menu">
+                    <span class="user-name">{{ currentUser.name }}</span>
+                    <button @click="logout" class="logout-btn" title="Logout">🚪</button>
+                </div>
+
                 <router-link to="/cart" class="cart-icon" title="Cart">
                     🛒
                     <span v-if="cartItemsCount > 0" class="cart-badge">{{
@@ -53,10 +66,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
 import { useCart } from "@/composables/useCart";
+import { useAuth } from "@/composables/useAuth";
+
+const route = useRoute();
+const isAquariumRoute = computed(() => route.name === 'aquarium');
 
 const { cartItemsCount, loadCart, cartItems } = useCart();
+const { isAuthenticated, currentUser, logout } = useAuth();
 const isMenuOpen = ref(false);
 
 onMounted(() => {
@@ -145,6 +164,34 @@ onMounted(() => {
     font-family: var(--font-body);
 }
 
+.auth-link {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.auth-link:hover {
+    color: var(--secondary-color);
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-name {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+}
+
 .burger-btn {
     display: none;
     background: none;
@@ -188,5 +235,32 @@ onMounted(() => {
         width: 100%;
         text-align: center;
     }
+}
+
+/* Dark Theme for Aquarium Page */
+.header.dark-theme {
+    background-color: #08080a;
+    border-bottom: 1px solid #1a1a1d;
+}
+
+.header.dark-theme .logo,
+.header.dark-theme .nav-link,
+.header.dark-theme .user-name {
+    color: #ffffff;
+}
+
+.header.dark-theme .nav-link:hover,
+.header.dark-theme .nav-link.active,
+.header.dark-theme .auth-link {
+    color: var(--secondary-color);
+}
+
+.header.dark-theme .cart-icon,
+.header.dark-theme .logout-btn {
+    color: #ffffff;
+}
+
+.header.dark-theme .burger-btn {
+    color: #ffffff;
 }
 </style>

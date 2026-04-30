@@ -2,10 +2,7 @@
     <div class="item-card" @click="goToProduct">
         <div class="card-image-wrapper">
             <img
-                :src="
-                    item.image ||
-                    'https://via.placeholder.com/300x200?text=No+Image'
-                "
+                :src="displayImage"
                 :alt="item.title"
             />
         </div>
@@ -32,6 +29,15 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+});
+
+import { computed } from "vue";
+
+const displayImage = computed(() => {
+    if (Array.isArray(props.item.image) && props.item.image.length > 0) {
+        return props.item.image[0];
+    }
+    return props.item.image || 'https://via.placeholder.com/300x200?text=No+Image';
 });
 
 const router = useRouter();

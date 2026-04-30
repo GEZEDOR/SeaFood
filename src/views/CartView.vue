@@ -19,8 +19,9 @@
                         <div class="item-image">
                             <img
                                 :src="
-                                    item.image ||
-                                    'https://via.placeholder.com/150?text=No+Image'
+                                    Array.isArray(item.image) && item.image.length > 0 
+                                        ? item.image[0] 
+                                        : (item.image || 'https://via.placeholder.com/150?text=No+Image')
                                 "
                                 :alt="item.title"
                             />
@@ -139,7 +140,7 @@
                 <button
                     class="btn btn-primary checkout-btn"
                     :disabled="cartItems.length === 0"
-                    @click="clearCart(true)"
+                    @click="handleCheckoutClick"
                 >
                     Checkout
                 </button>
@@ -163,7 +164,12 @@
 
 <script setup>
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { useCart } from "@/composables/useCart";
+import { useAuth } from "@/composables/useAuth";
+
+const router = useRouter();
+const { isAuthenticated } = useAuth();
 
 const {
     cartItems,
@@ -173,6 +179,14 @@ const {
     clearCart,
     cartTotal,
 } = useCart();
+
+const handleCheckoutClick = () => {
+    if (!isAuthenticated.value) {
+        router.push({ path: "/auth", query: { redirect: "/checkout" } });
+    } else {
+        router.push("/checkout");
+    }
+};
 
 onMounted(() => {
     if (cartItems.value.length === 0) {
@@ -258,11 +272,13 @@ onMounted(() => {
     font-size: 1.2rem;
     margin: 0;
     color: var(--primary-color);
+    max-width: 80%; /* Limit title width to give space for price */
 }
 
 .item-price {
     font-weight: 600;
     font-size: 1.1rem;
+    white-space: nowrap; /* Prevent price and $ from breaking apart */
 }
 
 .item-category,

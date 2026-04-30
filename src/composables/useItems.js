@@ -2,9 +2,10 @@ import { ref, computed } from "vue";
 import axios from "axios";
 import { useLoader } from "./useLoader";
 import { useNotifications } from "./useNotifications";
+import { useCart } from "./useCart";
 
 const items = ref([]);
-const API_URL = "https://69ed62afaf4ff533142bbbbd.mockapi.io/api/v1/Products";
+const API_URL = import.meta.env.VITE_API_PRODUCTS;
 
 export function useItems() {
     const { showLoader, hideLoader } = useLoader();
@@ -63,6 +64,14 @@ export function useItems() {
         try {
             await axios.delete(`${API_URL}/${id}`);
             items.value = items.value.filter((i) => i.id !== id);
+            
+            // Remove from cart if it exists
+            const { cartItems, removeFromCart } = useCart();
+            const cartItem = cartItems.value.find(c => c.productId === id);
+            if (cartItem) {
+                removeFromCart(cartItem.id);
+            }
+            
             addNotification("Product deleted successfully!", "success");
             return true;
         } catch (error) {

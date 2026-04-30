@@ -50,13 +50,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Image URL</label>
-                    <input
-                        type="url"
+                    <label for="image">Image URLs (one per line)</label>
+                    <textarea
                         id="image"
-                        v-model="formData.image"
-                        placeholder="https://example.com/image.png"
-                    />
+                        v-model="imageInput"
+                        placeholder="https://example.com/image1.png&#10;https://example.com/image2.png"
+                        rows="3"
+                    ></textarea>
                 </div>
 
                 <div class="form-group">
@@ -110,6 +110,8 @@
 <script setup>
 import { ref, watch } from "vue";
 
+const imageInput = ref("");
+
 const props = defineProps({
     isOpen: {
         type: Boolean,
@@ -141,6 +143,11 @@ watch(
             if (props.itemToEdit) {
                 isEdit.value = true;
                 formData.value = { ...props.itemToEdit };
+                if (Array.isArray(formData.value.image)) {
+                    imageInput.value = formData.value.image.join('\n');
+                } else {
+                    imageInput.value = formData.value.image || '';
+                }
             } else {
                 isEdit.value = false;
                 formData.value = {
@@ -152,6 +159,7 @@ watch(
                     ingredients: "",
                     weight: "",
                 };
+                imageInput.value = "";
             }
         }
     },
@@ -162,7 +170,15 @@ const close = () => {
 };
 
 const handleSubmit = () => {
-    emit("submit", { ...formData.value });
+    const imagesArray = imageInput.value
+        .split('\n')
+        .map(url => url.trim())
+        .filter(url => url.length > 0);
+    
+    emit("submit", { 
+        ...formData.value, 
+        image: imagesArray.length > 0 ? imagesArray : "" 
+    });
 };
 </script>
 

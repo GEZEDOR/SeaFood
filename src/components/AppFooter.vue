@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer">
+    <footer class="footer" :class="{ 'dark-theme': isAquariumRoute }">
         <div class="container footer-content">
             <div class="logo">
                 <span class="logo-icon">🐟</span>
@@ -37,6 +37,14 @@
         </div>
     </footer>
 </template>
+
+<script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const isAquariumRoute = computed(() => route.name === 'aquarium');
+</script>
 
 <style scoped>
 .footer {
@@ -131,5 +139,21 @@
     .footer-social {
         justify-content: center;
     }
+}
+
+/* Dark Theme for Aquarium Page */
+.footer.dark-theme {
+    background-color: #08080a;
+    margin-top: 0;
+    border-top: 1px solid #1a1a1d;
+}
+
+.footer.dark-theme .logo,
+.footer.dark-theme .footer-nav a {
+    color: #ffffff;
+}
+
+.footer.dark-theme .footer-nav a:hover {
+    color: var(--secondary-color);
 }
 </style>
